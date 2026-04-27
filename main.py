@@ -1,9 +1,11 @@
 import json
 import os
 import yaml
+from templates.mcq import MCQPrompt
+from templates.open_ended import OpenEndedPrompt
 from models.example_model import CustomModel
 
-def load_data(benchmark_name: str, catalog_path: str):
+def load_data(benchmark_name: str, catalog_path: str = "/benchmark/catalog.yaml"):
 
     if not os.path.exists(catalog_path):
         raise FileNotFoundError(f"Catalog file not found at {catalog_path}")
@@ -37,3 +39,24 @@ def load_data(benchmark_name: str, catalog_path: str):
             print(f"Warning: Audio file missing - {item['full_audio_path']}")
             
     return dataset, config
+
+def infer_mmau(output_filename: str = "mmau.json"):
+    benchmark_name = "mmau"
+    model = CustomModel()
+    dataset, config = load_data(benchmark_name)
+    question_key = config.get("question_key")
+    choices_key = config.get("choices_key")
+    for data in dataset:
+        prompt_template = MCQPrompt(data[question_key], data[choices_key])
+        prompt = prompt_template.mcq_prompt_template()
+        output = model.generate(prompt, data["full_audio_path"])
+
+        data["model_output"] = output
+    
+    output_dir = "results"
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, output_filename)
+    with open(output_path, "w") as f:
+        json.dump(dataset, f, indent=4)
+
+    print(f"Inference complete! Saved updated dataset with 'model_output' to {output_path}")
