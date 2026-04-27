@@ -1,0 +1,31 @@
+mmau:
+  description: "A Massive Multi-Task Audio Understanding and Reasoning Benchmark"
+  json_path: "/benchmarks/MMAU/mmau-test-mini.json"
+  audio_root: ""
+  audio_path_key: "audio_id"
+  question_key: "question"
+  choices_key: "choices"
+
+mmau_pro:
+  description: "A Comprehensive Benchmark for Holistic Evaluation of Audio General Intelligence"
+  json_path: ""
+  audio_root: ""
+  audio_path_key: ""
+  question_key: ""
+  choices_key: ""
+
+mmar:
+  description: "A Challenging Benchmark for Deep Reasoning in Speech, Audio, Music, and Their Mix"
+  json_path: ""
+  audio_root: ""
+  audio_path_key: ""
+  question_key: ""
+  choices_key: ""
+
+mmsu:
+  description: "A Massive Multi-task Spoken Language Understanding and Reasoning Benchmark"
+  json_path: ""
+  audio_root: ""
+  audio_path_key: ""
+  question_key: ""
+  choices_key: ""
